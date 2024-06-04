@@ -33,3 +33,5 @@ func MostrarLibrosPorGenero(generoID int) bool {
 	}
 	return encontrado
 }
+
+//cambio gus
