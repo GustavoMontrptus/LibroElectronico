@@ -35,8 +35,4 @@ func main() {
 	}
 }
 
-// prueba git
-//MIKKE
-
-// Prueba Git
-//Bryan Espinoza
+//les borre todo
