@@ -1,6 +1,4 @@
 alexortega262019@gmail.com,Camila262004
-<<<<<<< HEAD
 gusgus@gmail.com,pruebaGus1
-=======
 bryanespinoza@gmail.com,B1234567
->>>>>>> 59fdbdb35a6cc5158262b7c17d4b96dcf454fe95
+salazardarwin@gmail.com,123456789D
