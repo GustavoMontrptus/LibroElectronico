@@ -9,11 +9,29 @@ import (
 )
 
 type Usuario struct {
-	Correo     string
-	Contrasena string
+	correo     string
+	contrasena string
 }
 
-var usuariosRegistrados = make(map[string]*Usuario)
+var UsuariosRegistrados = make(map[string]*Usuario)
+
+// Getters
+func (u *Usuario) GetCorreo() string {
+	return u.correo
+}
+
+func (u *Usuario) GetContrasena() string {
+	return u.contrasena
+}
+
+// Setters
+func (u *Usuario) SetCorreo(correo string) {
+	u.correo = correo
+}
+
+func (u *Usuario) SetContrasena(contrasena string) {
+	u.contrasena = contrasena
+}
 
 func GuardarUsuarios() {
 	file, err := os.Create("usuarios.txt")
@@ -23,8 +41,8 @@ func GuardarUsuarios() {
 	}
 	defer file.Close()
 
-	for _, usuario := range usuariosRegistrados {
-		fmt.Fprintf(file, "%s,%s\n", usuario.Correo, usuario.Contrasena)
+	for _, usuario := range UsuariosRegistrados {
+		fmt.Fprintf(file, "%s,%s\n", usuario.GetCorreo(), usuario.GetContrasena())
 	}
 }
 
@@ -41,7 +59,10 @@ func CargarUsuarios() {
 		linea := scanner.Text()
 		partes := strings.Split(linea, ",")
 		if len(partes) == 2 {
-			usuariosRegistrados[partes[0]] = &Usuario{Correo: partes[0], Contrasena: partes[1]}
+			usuario := &Usuario{}
+			usuario.SetCorreo(partes[0])
+			usuario.SetContrasena(partes[1])
+			UsuariosRegistrados[partes[0]] = usuario
 		}
 	}
 
@@ -50,36 +71,33 @@ func CargarUsuarios() {
 	}
 }
 
-func CrearCliente(correo, contrasena, nombreTitular, numeroTarjeta, fechaCaducidad, claveSeguridad string) {
-	usuario := &Usuario{
-		Correo:     correo,
-		Contrasena: contrasena,
-	}
-	usuariosRegistrados[correo] = usuario
+func CrearCliente(correo, contrasena string) {
+	usuario := &Usuario{}
+	usuario.SetCorreo(correo)
+	usuario.SetContrasena(contrasena)
+	UsuariosRegistrados[correo] = usuario
 	GuardarUsuarios()
 }
 
 func AutenticarUsuario(correo, contrasena string) (*Usuario, bool) {
-	usuario, existe := usuariosRegistrados[correo]
-	if !existe || usuario.Contrasena != contrasena {
+	usuario, existe := UsuariosRegistrados[correo]
+	if !existe || usuario.GetContrasena() != contrasena {
 		return nil, false
 	}
 	return usuario, true
 }
 
-func validarCorreo(correo string) bool {
-	if strings.Contains(correo, "@") && strings.HasSuffix(correo, ".com") {
-		return true
-	}
-	return false
+func ValidarCorreo(correo string) bool {
+	return strings.Contains(correo, "@") && strings.HasSuffix(correo, ".com")
 }
 
-func validarContrasena(contrasena string) bool {
-	if len(contrasena) >= 8 {
-		for _, char := range contrasena {
-			if unicode.IsUpper(char) {
-				return true
-			}
+func ValidarContrasena(contrasena string) bool {
+	if len(contrasena) < 8 {
+		return false
+	}
+	for _, char := range contrasena {
+		if unicode.IsUpper(char) {
+			return true
 		}
 	}
 	return false
