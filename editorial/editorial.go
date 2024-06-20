@@ -14,7 +14,6 @@ func NewEditorial(ID int, Nombre string) *Editorial {
 		Nombre: Nombre,
 	}
 }
-
 // Getters
 func (e *Editorial) GetID() int {
 	return e.ID
@@ -32,7 +31,6 @@ func (e *Editorial) SetID(ID int) {
 func (e *Editorial) SetNombre(Nombre string) {
 	e.Nombre = Nombre
 }
-
 // Método
 func (e *Editorial) PrintEditorial() {
 	fmt.Printf("ID: %d\nNombre: %s\n", e.ID, e.Nombre)

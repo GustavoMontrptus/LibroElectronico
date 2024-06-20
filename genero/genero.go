@@ -6,7 +6,6 @@ type Genero struct {
 	ID     int
 	Nombre string
 }
-
 // Constructor
 func NewGenero(ID int, Nombre string) *Genero {
 	return &Genero{
@@ -14,7 +13,6 @@ func NewGenero(ID int, Nombre string) *Genero {
 		Nombre: Nombre,
 	}
 }
-
 // Getters
 func (g *Genero) GetID() int {
 	return g.ID
@@ -23,7 +21,6 @@ func (g *Genero) GetID() int {
 func (g *Genero) GetNombre() string {
 	return g.Nombre
 }
-
 // Setters
 func (g *Genero) SetID(ID int) {
 	g.ID = ID
