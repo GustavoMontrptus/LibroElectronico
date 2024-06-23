@@ -1,36 +1,33 @@
 package genero
 
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type Genero struct {
 	ID     int
 	Nombre string
 }
-// Constructor
-func NewGenero(ID int, Nombre string) *Genero {
-	return &Genero{
-		ID:     ID,
-		Nombre: Nombre,
+
+func GetGeneros(db *sql.DB) ([]Genero, error) {
+	rows, err := db.Query("SELECT id, name FROM genero")
+	if err != nil {
+		return nil, err
 	}
-}
-// Getters
-func (g *Genero) GetID() int {
-	return g.ID
+	defer rows.Close()
+
+	var generos []Genero
+	for rows.Next() {
+		var genero Genero
+		if err := rows.Scan(&genero.ID, &genero.Nombre); err != nil {
+			return nil, err
+		}
+		generos = append(generos, genero)
+	}
+	return generos, nil
 }
 
-func (g *Genero) GetNombre() string {
-	return g.Nombre
-}
-// Setters
-func (g *Genero) SetID(ID int) {
-	g.ID = ID
-}
-
-func (g *Genero) SetNombre(Nombre string) {
-	g.Nombre = Nombre
-}
-
-// Método
 func (g *Genero) PrintGenero() {
 	fmt.Printf("ID: %d\nNombre: %s\n", g.ID, g.Nombre)
 }

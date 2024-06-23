@@ -1,6 +1,9 @@
 package autor
 
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type Autor struct {
 	ID           int
@@ -8,42 +11,24 @@ type Autor struct {
 	Nacionalidad string
 }
 
-// Constructor
-func NewAutor(ID int, Nombre string, Nacionalidad string) *Autor {
-	return &Autor{
-		ID:           ID,
-		Nombre:       Nombre,
-		Nacionalidad: Nacionalidad,
+func GetAutores(db *sql.DB) ([]Autor, error) {
+	rows, err := db.Query("SELECT id, name, nacionalidad FROM autor")
+	if err != nil {
+		return nil, err
 	}
+	defer rows.Close()
+
+	var autores []Autor
+	for rows.Next() {
+		var autor Autor
+		if err := rows.Scan(&autor.ID, &autor.Nombre, &autor.Nacionalidad); err != nil {
+			return nil, err
+		}
+		autores = append(autores, autor)
+	}
+	return autores, nil
 }
 
-// Getters
-func (a *Autor) GetID() int {
-	return a.ID
-}
-
-func (a *Autor) GetNombre() string {
-	return a.Nombre
-}
-
-func (a *Autor) GetNacionalidad() string {
-	return a.Nacionalidad
-}
-
-// Setters
-func (a *Autor) SetID(ID int) {
-	a.ID = ID
-}
-
-func (a *Autor) SetNombre(Nombre string) {
-	a.Nombre = Nombre
-}
-
-func (a *Autor) SetNacionalidad(Nacionalidad string) {
-	a.Nacionalidad = Nacionalidad
-}
-
-// Método
 func (a *Autor) PrintAutor() {
 	fmt.Printf("ID: %d\nNombre: %s\nNacionalidad: %s\n", a.ID, a.Nombre, a.Nacionalidad)
 }

@@ -1,37 +1,33 @@
 package editorial
 
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type Editorial struct {
 	ID     int
 	Nombre string
 }
 
-// Constructor
-func NewEditorial(ID int, Nombre string) *Editorial {
-	return &Editorial{
-		ID:     ID,
-		Nombre: Nombre,
+func GetEditoriales(db *sql.DB) ([]Editorial, error) {
+	rows, err := db.Query("SELECT id, name FROM editorial")
+	if err != nil {
+		return nil, err
 	}
-}
-// Getters
-func (e *Editorial) GetID() int {
-	return e.ID
+	defer rows.Close()
+
+	var editoriales []Editorial
+	for rows.Next() {
+		var editorial Editorial
+		if err := rows.Scan(&editorial.ID, &editorial.Nombre); err != nil {
+			return nil, err
+		}
+		editoriales = append(editoriales, editorial)
+	}
+	return editoriales, nil
 }
 
-func (e *Editorial) GetNombre() string {
-	return e.Nombre
-}
-
-// Setters
-func (e *Editorial) SetID(ID int) {
-	e.ID = ID
-}
-
-func (e *Editorial) SetNombre(Nombre string) {
-	e.Nombre = Nombre
-}
-// Método
 func (e *Editorial) PrintEditorial() {
 	fmt.Printf("ID: %d\nNombre: %s\n", e.ID, e.Nombre)
 }
