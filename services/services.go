@@ -12,12 +12,10 @@ import (
 	"net/http"
 )
 
-// App representa la aplicación y contiene el DB handle
 type App struct {
 	DB *sql.DB
 }
 
-// GetAutoresHandler maneja las solicitudes para obtener autores
 func (app *App) GetAutoresHandler(w http.ResponseWriter, r *http.Request) {
 	autores, err := autor.GetAutores(app.DB)
 	if err != nil {
@@ -27,7 +25,6 @@ func (app *App) GetAutoresHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(autores)
 }
 
-// GetEditorialesHandler maneja las solicitudes para obtener editoriales
 func (app *App) GetEditorialesHandler(w http.ResponseWriter, r *http.Request) {
 	editoriales, err := editorial.GetEditoriales(app.DB)
 	if err != nil {
@@ -37,7 +34,6 @@ func (app *App) GetEditorialesHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(editoriales)
 }
 
-// GetGenerosHandler maneja las solicitudes para obtener géneros
 func (app *App) GetGenerosHandler(w http.ResponseWriter, r *http.Request) {
 	generos, err := genero.GetGeneros(app.DB)
 	if err != nil {
@@ -47,7 +43,6 @@ func (app *App) GetGenerosHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(generos)
 }
 
-// GetLibrosHandler maneja las solicitudes para obtener libros
 func (app *App) GetLibrosHandler(w http.ResponseWriter, r *http.Request) {
 	libros, err := libro.GetLibros(app.DB)
 	if err != nil {
@@ -57,7 +52,6 @@ func (app *App) GetLibrosHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(libros)
 }
 
-// LoginHandler maneja las solicitudes de inicio de sesión
 func (app *App) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.ServeFile(w, r, "templates/login.html")
@@ -74,18 +68,34 @@ func (app *App) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	_, autenticado := usuario.AutenticarUsuario(app.DB, correo, contrasena)
 	if autenticado {
-		http.Redirect(w, r, "/libros", http.StatusSeeOther)
+		http.Redirect(w, r, "/seleccion-genero", http.StatusSeeOther)
 	} else {
 		err := usuario.CrearCliente(app.DB, correo, contrasena)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		http.Redirect(w, r, "/libros", http.StatusSeeOther)
+		http.Redirect(w, r, "/seleccion-genero", http.StatusSeeOther)
 	}
 }
 
-// LibrosHandler maneja las solicitudes relacionadas con libros
+func (app *App) SeleccionGeneroHandler(w http.ResponseWriter, r *http.Request) {
+	generos, err := genero.GetGeneros(app.DB)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	data := struct {
+		Generos []genero.Genero
+	}{
+		Generos: generos,
+	}
+
+	tmpl := template.Must(template.ParseFiles("templates/seleccion_genero.html"))
+	tmpl.Execute(w, data)
+}
+
 func (app *App) LibrosHandler(w http.ResponseWriter, r *http.Request) {
 	generos, err := genero.GetGeneros(app.DB)
 	if err != nil {
@@ -110,5 +120,3 @@ func (app *App) LibrosHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/libros.html"))
 	tmpl.Execute(w, data)
 }
-
-// Otras funciones y métodos relacionados con la aplicación pueden ser añadidos aquí
