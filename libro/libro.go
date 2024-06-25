@@ -89,3 +89,16 @@ func MostrarLibrosPorGenero(db *sql.DB, generoID int, autores []autor.Autor, edi
 
 	return true
 }
+
+func ObtenerDetallesLibro(db *sql.DB, libroID string) (*Libro, error) {
+	query := "SELECT id, titulo, genero_id, autor_id, editorial_id, year, descripcion FROM libro WHERE id = ?"
+	row := db.QueryRow(query, libroID)
+
+	var l Libro
+	err := row.Scan(&l.ID, &l.Titulo, &l.GeneroID, &l.AutorID, &l.EditorialID, &l.Year, &l.Descripcion)
+	if err != nil {
+		return nil, err
+	}
+
+	return &l, nil
+}

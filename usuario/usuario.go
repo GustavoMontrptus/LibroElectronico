@@ -3,6 +3,7 @@ package usuario
 import (
 	"database/sql"
 	"fmt"
+	"regexp"
 )
 
 type Usuario struct {
@@ -33,11 +34,27 @@ func AutenticarUsuario(db *sql.DB, correo, contrasena string) (*Usuario, bool) {
 }
 
 func ValidarCorreo(correo string) bool {
-	// Implementación de validación de correo
-	return true // Asumiendo una validación básica por ahora
+	// Validación básica del formato de correo
+	// Debe contener al menos un arroba y un punto seguido de "com"
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$`)
+	return emailRegex.MatchString(correo)
 }
 
 func ValidarContrasena(contrasena string) bool {
-	// Implementación de validación de contraseña
-	return true // Asumiendo una validación básica por ahora
+	// Validación de la contraseña
+	// Debe tener al menos 8 caracteres, una mayúscula y un número
+	if len(contrasena) < 8 {
+		return false
+	}
+	hasUpperCase := false
+	hasDigit := false
+	for _, char := range contrasena {
+		if 'A' <= char && char <= 'Z' {
+			hasUpperCase = true
+		}
+		if '0' <= char && char <= '9' {
+			hasDigit = true
+		}
+	}
+	return hasUpperCase && hasDigit
 }

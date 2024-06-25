@@ -1,49 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libros</title>
+    <title>Detalles del Libro</title>
+    <!-- Agrega estilos CSS si es necesario -->
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        .search-form { margin-bottom: 20px; }
-        .libro { cursor: pointer; margin-bottom: 10px; }
-        .descripcion { display: none; margin-left: 20px; font-style: italic; }
+        /* Estilos específicos para los detalles del libro */
     </style>
-    <script>
-        function toggleDescripcion(id) {
-            var desc = document.getElementById('desc-'+id);
-            desc.style.display = desc.style.display === 'none' ? 'block' : 'none';
-        }
-    </script>
 </head>
 <body>
-    <h1>Libros Disponibles</h1>
-    
-    <div class="search-form">
-        <form action="/libros" method="get">
-            <input type="text" name="busqueda" placeholder="Buscar libros...">
-            <select name="criterio">
-                <option value="genero">Género</option>
-                <option value="autor">Autor</option>
-                <option value="year">Año</option>
-                <option value="nacionalidad">Nacionalidad</option>
-            </select>
-            <button type="submit">Buscar</button>
-        </form>
+    <h1>Detalles del Libro</h1>
+    <div>
+        <h2>{{.Titulo}}</h2>
+        <p><strong>Autor:</strong> {{.Autor}}</p>
+        <p><strong>Editorial:</strong> {{.Editorial}}</p>
+        <p><strong>Año:</strong> {{.Anio}}</p>
+        <p><strong>Nacionalidad del Autor:</strong> {{.NacionalidadAutor}}</p>
+        <p><strong>Descripción:</strong> {{.Descripcion}}</p>
     </div>
-
-    <ul>
-        {{range .Libros}}
-        <li class="libro" onclick="toggleDescripcion('{{.ID}}')">
-            {{.Titulo}} - {{.Year}} ({{.Autor}})
-            <div id="desc-{{.ID}}" class="descripcion">
-                Género: {{.Genero}}<br>
-                Nacionalidad: {{.Nacionalidad}}<br>
-                Descripción: {{.Descripcion}}
-            </div>
-        </li>
-        {{end}}
-    </ul>
 </body>
-</html>
+</html
