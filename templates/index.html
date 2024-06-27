@@ -3,58 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>Bienvenido a Biblioteca Cerebritos</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
+        /* Estilos generales */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #c8dce8;
+            color: #000000;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            background-image: url('https://img.freepik.com/fotos-premium/cielo-azul-fondo-nubes-blancas_570543-6526.jpg?size=626&ext=jpg'); /* Cambia esta URL por la imagen que prefieras */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            display: flex;
+            flex-direction: column;
         }
+
         header {
-            background-color: #a54caf;
+            background-color: #544caf;
             color: white;
             padding: 1em;
+            width: 100%;
             text-align: center;
+            box-shadow: 0 6px 8px rgba(17, 232, 53, 0.1);
         }
-        nav {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
+
+        main {
+            padding: 20px;
+            background-color: rgba(241, 255, 253, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(66, 25, 25, 0.1);
+            max-width: 800px;
+            width: 100%;
+            align-self: center;
         }
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #333;
+
+        .logo {
+            max-width: 200px;
+            margin: 20px auto;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            width: 100%;
+            border: none;
+        }
+
+        .card h1, .card h2 {
+            color: #a54caf;
+        }
+
+        .list-unstyled li {
+            padding: 5px 0;
             font-size: 1.2em;
         }
-        nav a:hover {
-            color: #4CAF50;
+
+        .list-unstyled li:not(:last-child) {
+            border-bottom: 1px solid #ddd;
         }
-        main {
-            margin: 20px;
+
+        .subscription {
+            margin-top: 20px;
             padding: 20px;
-            background-color: white;
+            background-color: #28a745;
+            color: white;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
         }
-        h1 {
-            text-align: center;
+
+        .subscription h2 {
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .carousel-item img {
+            height: 400px;
+            object-fit: contain;
+            margin: auto;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff5e57;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background-color: #ff3333;
         }
     </style>
 </head>
+
 <body>
     <header>
-        <h1>Bienvenido a Biblioteca Go</h1>
+        <h1>Biblioteca Cerebritos</h1>
     </header>
-    <nav>
-        <a href="/login">Iniciar sesión</a>
-        <a href="/libros">Libros</a>
-    </nav>
+
     <main>
-        <h1>Inicio</h1>
-        <p>Bienvenido a la Biblioteca Go, tu sistema de gestión de libros. Puedes navegar por el sitio usando los enlaces de arriba.</p>
-        <p>Para comenzar, puedes iniciar sesión o ver la lista de libros disponibles.</p>
-    </main>
+        <nav class="mb-4">
+            <a href="/login" class="btn btn-primary">Iniciar sesión</a>
+        </nav>
+
+        <img src="https://www.escuelainfantilcerebritos.com/wp-content/uploads/2021/06/cerebrito.png" alt="Cerebritos Logo" class="logo">
+
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">Bienvenido a Biblioteca Cerebritos</h1>
+                <p class="card-text">Esta página web te permitirá encontrar los mejores libros.</p>
+                <p class="card-text">Puedes iniciar sesión para explorar los libros disponibles</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Géneros Disponibles</h2>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3>Fantasía</h3>
+                        <div id="carouselFantasía" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://covers.openlibrary.org/b/id/9786787-L.jpg" class="d-block w-100" alt="Libro de Fantasía 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/9295895-L.jpg" class="d-block w-100" alt="Libro de Fantasía 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/8271794-L.jpg" class="d-block w-100" alt="Libro de Fantasía 3">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselFantasía" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselFantasía" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Siguiente</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>Realismo Mágico</h3>
+                        <div id="carouselRealismo" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://covers.openlibrary.org/b/id/10422084-L.jpg" class="d-block w-100" alt="Libro de Realismo Mágico 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/11116998-L.jpg" class="d-block w-100" alt="Libro de Realismo Mágico 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/10599826-L.jpg" class="d-block w-100" alt="Libro de Realismo Mágico 3">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselRealismo" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselRealismo" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Siguiente</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>Clásicos</h3>
+                        <div id="carouselClasicos" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://covers.openlibrary.org/b/id/10358321-L.jpg" class="d-block w-100" alt="Libro de Clásicos 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/10535330-L.jpg" class="d-block w-100" alt="Libro de Clásicos 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/10564296-L.jpg" class="d-block w-100" alt="Libro de Clásicos 3">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselClasicos" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselClasicos" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Siguiente</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>Ciencia Ficción</h3>
+                        <div id="carouselCienciaFiccion" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://covers.openlibrary.org/b/id/10799103-L.jpg" class="d-block w-100" alt="Libro de Ciencia Ficción 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/8272263-L.jpg" class="d-block w-100" alt="Libro de Ciencia Ficción 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/10565419-L.jpg" class="d-block w-100" alt="Libro de Ciencia Ficción 3">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselCienciaFiccion" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselCienciaFiccion" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Siguiente</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>Terror</h3>
+                        <div id="carouselTerror" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://covers.openlibrary.org/b/id/11127358-L.jpg" class="d-block w-100" alt="Libro de Terror 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/11127298-L.jpg" class="d-block w-100" alt="Libro de Terror 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/11127245-L.jpg" class="d-block w-100" alt="Libro de Terror 3">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselTerror" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselTerror" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Siguiente</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>Comedia</h3>
+                        <div id="carouselComedia" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://covers.openlibrary.org/b/id/8168812-L.jpg" class="d-block w-100" alt="Libro de Comedia 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/8245324-L.jpg" class="d-block w-100" alt="Libro de Comedia 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/8168804-L.jpg" class="d-block w-100" alt="Libro de Comedia 3">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselComedia" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselComedia" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Siguiente</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>Drama</h3>
+                        <div id="carouselDrama" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://covers.openlibrary.org/b/id/11127312-L.jpg" class="d-block w-100" alt="Libro de Drama 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/10755898-L.jpg" class="d-block w-100" alt="Libro de Drama 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://covers.openlibrary.org/b/id/11127241-L.jpg" class="d-block w-100" alt="Libro de Drama 3">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselDrama" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselDrama" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Siguiente</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="subscription">
+            <div class="subscription">
+                <h2>Suscríbete para acceder a todos los libros</h2>
+        <p>Accede a nuestra biblioteca completa por solo $5 al mes.</p>
+    </div>
+</main>
+
+
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+        ↑
+    </button>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Libros - Biblioteca Go</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: box-shadow 0.3s;
+        }
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-footer {
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+        }
+        .favoritos-icono {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .favoritos-icono i {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Lista de Libros</h2>
+        <div class="row">
+            <!-- Iteración sobre los libros -->
+            {{range .}}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{.Titulo}}</h5>
+                            <a href="/detalle_libro?id={{.ID}}" class="btn btn-primary">Ver detalles</a>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-link text-danger" onclick="toggleFavorito(this, '{{.Titulo}}')"><i class="far fa-heart"></i> <span class="contador">0</span> <span class="accion">Agregar a favoritos</span></a>
+                        </div>
+                    </div>
+                </div>
+            {{else}}
+                <div class="col">
+                    <p class="text-muted">No se encontraron libros para este género.</p>
+                </div>
+            {{end}}
+        </div>
+        <a href="/libros" class="btn btn-secondary mt-3">Volver a selección de género</a>
+    </div>
+
+    <!-- Icono de favoritos en la parte superior -->
+    <div class="favoritos-icono">
+        <a href="#" onclick="mostrarFavoritos()">
+            <i class="far fa-heart"></i>
+            <span id="contadorFavoritos">0</span>
+        </a>
+    </div>
+
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script>
+        var favoritos = [];
+
+        // Función para alternar entre agregar y eliminar de favoritos
+        function toggleFavorito(elemento, titulo) {
+            var contadorElemento = elemento.querySelector('.contador');
+            var accionElemento = elemento.querySelector('.accion');
+            var corazonIcono = elemento.querySelector('i.fa-heart');
+            var contadorGlobal = document.getElementById('contadorFavoritos');
+
+            if (accionElemento.textContent.trim() === 'Agregar a favoritos') {
+                // Agregar a favoritos
+                contadorElemento.textContent = '1';
+                accionElemento.textContent = 'Eliminar de favoritos';
+                corazonIcono.classList.remove('far');
+                corazonIcono.classList.add('fas');
+
+                // Actualizar contador global de favoritos
+                contadorGlobal.textContent = parseInt(contadorGlobal.textContent) + 1;
+
+                // Agregar a la lista de favoritos
+                favoritos.push(titulo);
+            } else {
+                // Eliminar de favoritos
+                contadorElemento.textContent = '0';
+                accionElemento.textContent = 'Agregar a favoritos';
+                corazonIcono.classList.remove('fas');
+                corazonIcono.classList.add('far');
+
+                // Actualizar contador global de favoritos
+                contadorGlobal.textContent = parseInt(contadorGlobal.textContent) - 1;
+
+                // Eliminar de la lista de favoritos
+                var index = favoritos.indexOf(titulo);
+                if (index > -1) {
+                    favoritos.splice(index, 1);
+                }
+            }
+        }
+
+        // Función para mostrar favoritos
+        function mostrarFavoritos() {
+            if (favoritos.length > 0) {
+                alert('Libros favoritos:\n' + favoritos.join('\n'));
+            } else {
+                alert('No hay libros en favoritos.');
+            }
+        }
+    </script>
+</body>
+</html>
