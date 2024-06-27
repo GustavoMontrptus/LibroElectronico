@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt" // Asegúrate de importar el paquete fmt
 	"html/template"
 	"log"
 	"net/http"
@@ -88,10 +89,12 @@ func (app *App) librosHandler(w http.ResponseWriter, r *http.Request) {
 
 func (app *App) detalleLibroHandler(w http.ResponseWriter, r *http.Request) {
 	libroID := r.URL.Query().Get("id")
+	log.Printf("Requested libro ID: %s", libroID) // Añadir impresión de depuración
 
 	libroDetalles, err := libro.ObtenerDetallesLibro(app.DB, libroID)
 	if err != nil {
-		http.Error(w, "Error obteniendo detalles del libro", http.StatusInternalServerError)
+		log.Printf("Error obteniendo detalles del libro: %v", err) // Añadir impresión de depuración
+		http.Error(w, fmt.Sprintf("Error obteniendo detalles del libro: %v", err), http.StatusInternalServerError)
 		return
 	}
 

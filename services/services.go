@@ -76,31 +76,6 @@ func (app *App) LibrosHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, libros)
 }
 
-func (app *App) DetallesLibroHandler(w http.ResponseWriter, r *http.Request) {
-	libroIDStr := r.URL.Query().Get("id")
-	if libroIDStr == "" {
-		http.Error(w, "Libro ID es requerido", http.StatusBadRequest)
-		return
-	}
-	libroID, err := strconv.Atoi(libroIDStr)
-	if err != nil {
-		http.Error(w, "Libro ID inválido", http.StatusBadRequest)
-		return
-	}
-
-	// Convertir libroID de int a string
-	libroIDStrConv := strconv.Itoa(libroID)
-
-	// Llamar a la función ObtenerDetallesLibro con libroIDStrConv como argumento
-	l, err := libro.ObtenerDetallesLibro(app.DB, libroIDStrConv)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	tmpl := template.Must(template.ParseFiles("templates/detalle_libro.html"))
-	tmpl.Execute(w, l)
-}
-
 func (app *App) GetGenerosHandler(w http.ResponseWriter, r *http.Request) {
 	generos, err := genero.GetGeneros(app.DB)
 	if err != nil {

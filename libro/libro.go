@@ -103,7 +103,7 @@ func MostrarLibrosPorGenero(db *sql.DB, generoID int, autores []autor.Autor, edi
 
 func ObtenerDetallesLibro(db *sql.DB, id string) (*Libro, error) {
 	var libro Libro
-	query := "SELECT id, titulo, autor_id, genero_id, editorial_id, year, descripcion FROM libros WHERE id = ?"
+	query := "SELECT id, titulo, autor_id, genero_id, editorial_id, year, descripcion FROM libro WHERE id = ?"
 	err := db.QueryRow(query, id).Scan(&libro.ID, &libro.Titulo, &libro.AutorID, &libro.GeneroID, &libro.EditorialID, &libro.Year, &libro.Descripcion)
 	if err != nil {
 		return nil, fmt.Errorf("error obteniendo detalles del libro: %v", err)

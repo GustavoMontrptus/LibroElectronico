@@ -45,7 +45,11 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{.Titulo}}</h5>
-                            <a href="/detalle_libro?id={{.ID}}" class="btn btn-primary">Ver detalles</a>
+                            <p class="card-text"><strong>Género:</strong> {{.GeneroID}}</p>
+                            <p class="card-text"><strong>Autor:</strong> {{.AutorID}}</p>
+                            <p class="card-text"><strong>Editorial:</strong> {{.EditorialID}}</p>
+                            <p class="card-text"><strong>Año:</strong> {{.Year}}</p>
+                            <p class="card-text"><strong>Descripción:</strong> {{.Descripcion}}</p>
                         </div>
                         <div class="card-footer">
                             <a href="#" class="btn btn-link text-danger" onclick="toggleFavorito(this, '{{.Titulo}}')"><i class="far fa-heart"></i> <span class="contador">0</span> <span class="accion">Agregar a favoritos</span></a>
