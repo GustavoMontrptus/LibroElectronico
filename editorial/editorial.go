@@ -28,6 +28,15 @@ func GetEditoriales(db *sql.DB) ([]Editorial, error) {
 	return editoriales, nil
 }
 
+// funcion para buscar editorial por id
+func GetNameEditorialByID(db *sql.DB, id int) (string, error) {
+	var editorial string
+
+	query := "SELECT name FROM editorial WHERE id = ?"
+	err := db.QueryRow(query, id).Scan(&editorial)
+	return editorial, err
+}
+
 func (e *Editorial) PrintEditorial() {
 	fmt.Printf("ID: %d\nNombre: %s\n", e.ID, e.Nombre)
 }

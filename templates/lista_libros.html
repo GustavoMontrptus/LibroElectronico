@@ -33,6 +33,11 @@
         .favoritos-icono i {
             font-size: 24px;
         }
+
+        /* Estilos para el corazón */
+        .fa-heart {
+            color: inherit; /* Hereda el color del texto enlaces */
+        }
     </style>
 </head>
 <body>
@@ -45,9 +50,9 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{.Titulo}}</h5>
-                            <p class="card-text"><strong>Género:</strong> {{.GeneroID}}</p>
-                            <p class="card-text"><strong>Autor:</strong> {{.AutorID}}</p>
-                            <p class="card-text"><strong>Editorial:</strong> {{.EditorialID}}</p>
+                            <p class="card-text"><strong>Género:</strong> {{.NombreGenero}}</p>
+                            <p class="card-text"><strong>Autor:</strong> {{.NombreAutor}}</p>
+                            <p class="card-text"><strong>Editorial:</strong> {{.NombreEditorial}}</p>
                             <p class="card-text"><strong>Año:</strong> {{.Year}}</p>
                             <p class="card-text"><strong>Descripción:</strong> {{.Descripcion}}</p>
                         </div>
@@ -87,7 +92,8 @@
 
             if (accionElemento.textContent.trim() === 'Agregar a favoritos') {
                 // Agregar a favoritos
-                contadorElemento.textContent = '1';
+                var contadorActual = parseInt(contadorElemento.textContent);
+                contadorElemento.textContent = contadorActual + 1;
                 accionElemento.textContent = 'Eliminar de favoritos';
                 corazonIcono.classList.remove('far');
                 corazonIcono.classList.add('fas');
@@ -95,11 +101,11 @@
                 // Actualizar contador global de favoritos
                 contadorGlobal.textContent = parseInt(contadorGlobal.textContent) + 1;
 
-                // Agregar a la lista de favoritos
-                favoritos.push(titulo);
+                favoritos.push(titulo); // Añadir a la lista de favoritos
             } else {
                 // Eliminar de favoritos
-                contadorElemento.textContent = '0';
+                var contadorActual = parseInt(contadorElemento.textContent);
+                contadorElemento.textContent = contadorActual - 1;
                 accionElemento.textContent = 'Agregar a favoritos';
                 corazonIcono.classList.remove('fas');
                 corazonIcono.classList.add('far');
@@ -107,21 +113,12 @@
                 // Actualizar contador global de favoritos
                 contadorGlobal.textContent = parseInt(contadorGlobal.textContent) - 1;
 
-                // Eliminar de la lista de favoritos
-                var index = favoritos.indexOf(titulo);
-                if (index > -1) {
-                    favoritos.splice(index, 1);
-                }
+                favoritos = favoritos.filter(item => item !== titulo); // Eliminar de la lista de favoritos
             }
         }
 
-        // Función para mostrar favoritos
         function mostrarFavoritos() {
-            if (favoritos.length > 0) {
-                alert('Libros favoritos:\n' + favoritos.join('\n'));
-            } else {
-                alert('No hay libros en favoritos.');
-            }
+            alert('Libros favoritos:\n' + favoritos.join('\n'));
         }
     </script>
 </body>

@@ -28,6 +28,15 @@ func GetGeneros(db *sql.DB) ([]Genero, error) {
 	return generos, nil
 }
 
+// funcion para buscar genero por id
+func GetNameGeneroByID(db *sql.DB, id int) (string, error) {
+	var genero string
+
+	query := "SELECT name FROM genero WHERE id = ?"
+	err := db.QueryRow(query, id).Scan(&genero)
+	return genero, err
+}
+
 func (g *Genero) PrintGenero() {
 	fmt.Printf("ID: %d\nNombre: %s\n", g.ID, g.Nombre)
 }

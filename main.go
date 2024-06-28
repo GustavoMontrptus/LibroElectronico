@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt" // Asegúrate de importar el paquete fmt
 	"html/template"
 	"log"
 	"net/http"
@@ -80,26 +79,12 @@ func (app *App) librosHandler(w http.ResponseWriter, r *http.Request) {
 	libros, err := libro.ObtenerLibrosPorGenero(app.DB, generoIDInt)
 	if err != nil {
 		http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
+		log.Printf("Error obteniendo libros amada: %v", err)
 		return
 	}
 
 	tmpl := template.Must(template.ParseFiles("templates/lista_libros.html"))
 	tmpl.Execute(w, libros)
-}
-
-func (app *App) detalleLibroHandler(w http.ResponseWriter, r *http.Request) {
-	libroID := r.URL.Query().Get("id")
-	log.Printf("Requested libro ID: %s", libroID) // Añadir impresión de depuración
-
-	libroDetalles, err := libro.ObtenerDetallesLibro(app.DB, libroID)
-	if err != nil {
-		log.Printf("Error obteniendo detalles del libro: %v", err) // Añadir impresión de depuración
-		http.Error(w, fmt.Sprintf("Error obteniendo detalles del libro: %v", err), http.StatusInternalServerError)
-		return
-	}
-
-	tmpl := template.Must(template.ParseFiles("templates/detalle_libro.html"))
-	tmpl.Execute(w, libroDetalles)
 }
 
 func main() {
@@ -116,7 +101,6 @@ func main() {
 	http.HandleFunc("/", app.indexHandler)
 	http.HandleFunc("/login", app.loginHandler)
 	http.HandleFunc("/libros", app.librosHandler)
-	http.HandleFunc("/detalle_libro", app.detalleLibroHandler)
 
 	serviceApp := &services.App{DB: db}
 	http.HandleFunc("/autores", serviceApp.GetAutoresHandler)

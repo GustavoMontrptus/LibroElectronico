@@ -29,6 +29,15 @@ func GetAutores(db *sql.DB) ([]Autor, error) {
 	return autores, nil
 }
 
+// funcion para buscar autor por id
+func GetNameAutorByID(db *sql.DB, id int) (string, error) {
+	var autor string
+
+	query := "SELECT name FROM autor WHERE id = ?"
+	err := db.QueryRow(query, id).Scan(&autor)
+	return autor, err
+}
+
 func (a *Autor) PrintAutor() {
 	fmt.Printf("ID: %d\nNombre: %s\nNacionalidad: %s\n", a.ID, a.Nombre, a.Nacionalidad)
 }

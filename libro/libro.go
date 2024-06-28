@@ -9,13 +9,16 @@ import (
 )
 
 type Libro struct {
-	ID          int
-	Titulo      string
-	GeneroID    int
-	AutorID     int
-	EditorialID int
-	Year        int
-	Descripcion string
+	ID              int
+	Titulo          string
+	GeneroID        int
+	AutorID         int
+	EditorialID     int
+	Year            int
+	Descripcion     string
+	NombreGenero    string
+	NombreAutor     string
+	NombreEditorial string
 }
 
 func GetLibros(db *sql.DB) ([]Libro, error) {
@@ -25,13 +28,19 @@ func GetLibros(db *sql.DB) ([]Libro, error) {
 		return nil, err
 	}
 	defer rows.Close()
-
 	var libros []Libro
 	for rows.Next() {
 		var l Libro
-		if err := rows.Scan(&l.ID, &l.Titulo, &l.GeneroID, &l.AutorID, &l.EditorialID, &l.Year, &l.Descripcion); err != nil {
+
+		genero, err := genero.GetNameGeneroByID(db, l.GeneroID)
+		if err != nil {
 			return nil, err
 		}
+
+		if err := rows.Scan(&l.ID, &l.Titulo, &genero, &l.AutorID, &l.EditorialID, &l.Year, &l.Descripcion); err != nil {
+			return nil, err
+		}
+
 		libros = append(libros, l)
 	}
 	return libros, nil
@@ -45,14 +54,40 @@ func ObtenerLibrosPorGenero(db *sql.DB, generoID int) ([]Libro, error) {
 	}
 	defer rows.Close()
 
+	genero, errGenero := genero.GetNameGeneroByID(db, generoID)
+	if errGenero != nil {
+		return nil, errGenero
+	}
+
 	var libros []Libro
 	for rows.Next() {
 		var l Libro
 		if err := rows.Scan(&l.ID, &l.Titulo, &l.GeneroID, &l.AutorID, &l.EditorialID, &l.Year, &l.Descripcion); err != nil {
 			return nil, err
 		}
+
+		autor, errAutor := autor.GetNameAutorByID(db, l.AutorID)
+		if errAutor != nil {
+			return nil, errAutor
+		}
+
+		editorial, errEditorial := editorial.GetNameEditorialByID(db, l.EditorialID)
+		if errEditorial != nil {
+			return nil, errEditorial
+		}
+
+		l.NombreGenero = genero
+		l.NombreAutor = autor
+		l.NombreEditorial = editorial
+
 		libros = append(libros, l)
 	}
+
+	// Verificar errores después del loop
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
 	return libros, nil
 }
 
@@ -99,14 +134,4 @@ func MostrarLibrosPorGenero(db *sql.DB, generoID int, autores []autor.Autor, edi
 	}
 
 	return true
-}
-
-func ObtenerDetallesLibro(db *sql.DB, id string) (*Libro, error) {
-	var libro Libro
-	query := "SELECT id, titulo, autor_id, genero_id, editorial_id, year, descripcion FROM libro WHERE id = ?"
-	err := db.QueryRow(query, id).Scan(&libro.ID, &libro.Titulo, &libro.AutorID, &libro.GeneroID, &libro.EditorialID, &libro.Year, &libro.Descripcion)
-	if err != nil {
-		return nil, fmt.Errorf("error obteniendo detalles del libro: %v", err)
-	}
-	return &libro, nil
 }
