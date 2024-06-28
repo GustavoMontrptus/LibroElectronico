@@ -45,7 +45,8 @@ func (app *App) loginHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		case "registro":
 			if err := usuario.CrearCliente(app.DB, correo, contrasena); err != nil {
-				http.Error(w, "Error al crear usuario", http.StatusInternalServerError)
+				log.Printf("Error al crear usuario: %v", err)
+				http.Error(w, "Error al crear usuario: "+err.Error(), http.StatusInternalServerError)
 				return
 			}
 			http.Redirect(w, r, "/libros", http.StatusSeeOther)
@@ -79,7 +80,7 @@ func (app *App) librosHandler(w http.ResponseWriter, r *http.Request) {
 	libros, err := libro.ObtenerLibrosPorGenero(app.DB, generoIDInt)
 	if err != nil {
 		http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
-		log.Printf("Error obteniendo libros amada: %v", err)
+		log.Printf("Error obteniendo libros: %v", err)
 		return
 	}
 

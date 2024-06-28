@@ -14,6 +14,9 @@ type Usuario struct {
 
 func CrearCliente(db *sql.DB, correo, contrasena string) error {
 	_, err := db.Exec("INSERT INTO usuarios (correo, contrasena) VALUES (?, ?)", correo, contrasena)
+	if err != nil {
+		fmt.Printf("Error inserting new user: %v\n", err)
+	}
 	return err
 }
 
