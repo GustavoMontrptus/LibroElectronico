@@ -89,7 +89,7 @@ func (app *App) librosHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	db, err := sql.Open("mysql", "root:camila262004@tcp(127.0.0.1:3306)/biblioteca_go")
+	db, err := sql.Open("mysql", "root:1234@tcp(127.0.0.1:3306)/biblioteca")
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
 	}
